@@ -1,0 +1,77 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} profiles {% endblock %}
+
+{% block content %}
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .profilecard {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        max-width: 300px;
+        margin: auto;
+        text-align: center;
+        font-family: arial;
+        }
+        .profilecard img{
+            border-radius: 50%;
+        }
+
+        button {
+            border: none;
+            outline: 0;
+            display: inline-block;
+            padding: 8px;
+            color: pink;
+            background-color: peru;
+            text-align: center;
+            cursor: pointer;
+            width: 100%;
+            font-size: 18px;
+            }
+
+        .title {
+        color: grey;
+        font-size: 18px;
+        }
+
+        a {
+        text-decoration: none;
+        font-size: 22px;
+        color: black;
+        }
+        button:hover, a:hover {
+            opacity: 0.7;
+        }
+
+        
+    </style>
+
+    <h2 style="text-align:center">Your Profile</h2>
+
+    <div class="profilecard">
+        <img src="{{ staff.image.url }}" alt="Profile picture" style="width:35%">
+        <h1>{{ staff.user.username }}</h1>
+        <h4><Address>{{ staff.address }}</Address></h4>
+        <h4>{{ staff.user.email }}</h4>
+        <div class="container">
+            <a href="{% url 'transactions' %}">
+                <a href="#"><i class="tim-icons icon-heart-2"></i></a>
+                <p>Favourites</p>
+            </a>
+            <a href="{% url 'transactions' %}">
+                <a href="#"><i class="tim-icons 
+                    icon-delivery-fast"></i></a>
+                <p>Orders</p>
+            </a>
+            <a href="{% url 'transactions' %}">
+                <a href="#"><i class="tim-icons 
+                    icon-settings-gear-63"></i></a>
+                <p>Settings</p>
+            </a>
+            {% if request.user == staff.user %}
+                <a href="{% url 'staffupdate' staff.id %}"><button>Update Profile</button></p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock content %}

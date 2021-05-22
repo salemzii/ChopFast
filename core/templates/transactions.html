@@ -1,0 +1,246 @@
+{% extends "layouts/base.html" %}
+<!-- Static assets -->
+{% load static %}
+
+{% block title %}Transactions{% endblock %}
+
+{% block content %}
+<div class="side-by-side">
+    <div class="card ">
+      <div class="card-header">
+        <h4 class="card-title">Payments</h4>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table tablesorter " id="">
+            <thead class=" text-primary">
+              <tr>
+                <th>
+                  Name
+                </th>
+                <th>
+                  Email Address
+                </th>
+                <th>
+                    Amount
+                </th>
+                <th class="text-center">
+                  Transaction Id
+                </th>
+              </tr>
+            </thead>
+            {% for payment in payments %}
+              <tbody>
+                <tr>
+                  <td>
+                    {{ payment.name.username }}
+                  </td>
+                  <td>
+                      {{ payment.name.email }}
+                  </td>
+                  <td>
+                      <strike>N</strike> {{ payment.amount }}
+                  </td>
+                  <td class="text-center">
+                    {{ payment.id }}
+                  </td>
+                </tr>
+              </tbody>
+            {% endfor %}
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="side-by-side">
+    <div class="card ">
+      <div class="card-header">
+        <h4 class="card-title">ORDERS</h4>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table tablesorter " id="">
+            <thead class=" text-primary">
+              <tr>
+                <th>
+                  Name
+                </th>
+                <th>
+                  Email Address
+                </th>
+                <th>
+                    Amount
+                </th>
+                <th>
+                    Home Address
+                </th>
+                <th>
+                    Time
+                </th>
+                <th>
+                    Transaction Id
+                </th>
+                <th class="text-center">
+                  Status
+                </th>
+              </tr>
+            </thead>
+              {% for order in orders %}
+              <tbody>
+                <tr>
+                  <td>
+                    {{ order.payment.name.username }}
+                  </td>
+                  <td>
+                    {{ order.payment.email }}
+                  </td>
+                  <td>
+                      <strike>N</strike> {{ order.payment.amount }}
+                  </td>
+                  <td>
+                      7 middle street, kano.
+                  </td>
+                  <td>
+                      {{ order.time }}
+                  </td>
+                  <td>
+                      {{ order.id }}
+                  </td>
+                  <td class="text-center">
+                      {{ order.status }}
+                  </td>
+                </tr>
+              </tbody>
+              {% endfor %}
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="side-by-side">
+    <div class="card ">
+      <div class="card-header">
+        <h4 class="card-title">Deliveries</h4>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table tablesorter " id="">
+            <thead class=" text-primary">
+              <tr>
+                <th>
+                  Name
+                </th>
+                <th>
+                  Menu
+                </th>
+                <th>
+                    Amount
+                </th>
+                <th>
+                    Home Address
+                </th>
+                <th>
+                  Time
+                </th>
+                <th>
+                    Rider
+                </th>
+                <th>
+                    Transaction Id
+                </th>
+                <th class="text-center">
+                  Status
+                </th>
+              </tr>
+            </thead>
+              {% for delivery in deliveries %}
+              <tbody>
+                <tr>
+                  <td>
+                    {{ delivery.order.payment.name.username }}
+                  </td>
+                  <td>
+                    {{ delivery.dish }} 
+                  </td>
+                  <td>
+                      <strike>N</strike> {{ delivery.order.payment.amount}}
+                  </td>
+                  <td>
+                      7 middle street, kano.
+                  </td>
+                  <td>
+                    {{ delivery.time }}
+                  </td>
+                  <td>
+                      Okey Johnson
+                  </td>
+                  <td>
+                      {{ delivery.id }}
+                  </td>
+                  <td class="text-center">
+                      <a href="#">{{ delivery.status }}</a>
+                  </td>
+                </tr>
+              </tbody>
+              {% endfor %}
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="side-by-side">
+    <div class="card ">
+      <div class="card-header">
+        <h4 class="card-title">Most Ordered Dish(s)</h4>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table tablesorter " id="">
+            <thead class=" text-primary">
+              <tr>
+                <th>
+                  Dish
+                </th>
+                <th>
+                    deliveries
+                </th>
+                <th>
+                    total sale
+                </th>
+                <th class="text-center">
+                  Comments
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  Plantain and Fried Rice
+                </td>
+                <td>
+                  39
+                </td>
+                <td>
+                    <strike>N</strike> 59,600
+                </td>
+
+                <td class="text-center">
+                  <a href="#">See Customers Comments</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock content %}
