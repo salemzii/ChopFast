@@ -63,7 +63,7 @@ class Order(models.Model):
     @property
     def get_cart_total(self):
         orderitems = self.orderitem_set.all()
-        total = sum([items.get_total for item in orderitems])
+        total = sum([item.get_total for item in orderitems])
         return total
     
     @property 
@@ -104,4 +104,13 @@ class Delivery(models.Model):
     def __str__(self):
          return self.status
 
+
+class Restaurant(models.Model):
+    name = models.CharField(max_length=120, blank=False)
+    address = models.CharField(max_length=220, blank=False)
+    rating = models.IntegerField(default=0)
+    menus = models.ForeignKey(Dish, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
 

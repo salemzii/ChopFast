@@ -20,9 +20,11 @@ DEBUG = config('DEBUG', default=True, cast=bool)
 
 # load production server from .env
 ALLOWED_HOSTS = ['localhost',
-config('SERVER', default='127.0.0.1'), '43670e004fb4.ngrok.io']
+config('SERVER', default='127.0.0.1'), '4cfd8067b8d1.ngrok.io']
 
+#SITE_ID = 3
 # Application definition
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -31,10 +33,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'app',  # Enable the inner app 
     'store',
     'profiles',
     'extras',
+    'allauth',
+    'system_supports',
+'allauth.account',
+'allauth.socialaccount',
+'allauth.socialaccount.providers.google',
 ]
 
 """
@@ -134,7 +142,7 @@ MEDIA_URL = '/media/'
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (
     os.path.join(CORE_DIR, 'core/static'),
-    os.path.join(CORE_DIR, 'core/media'),
+    #os.path.join(CORE_DIR, 'core/media'),
 )
 
 
@@ -142,7 +150,7 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend'
 ]
-
+DEFAULT_AUTO_FIELD='django.db.models.AutoField'
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {

@@ -128,12 +128,16 @@
                   <div class="col-lg-6 menu-item filter-starters">
                     <img src="{{ dish.imageURL }}" class="menu-img" alt="">
                     <div class="menu-content">
-                      <a href="{% url 'buydish' dish.id %}">{{ dish.name }}</a><span>{{ dish.price }} {% if request.user.is_staff %} <a href="{% url 'editDish' dish.id %}"> Edit</a> {% endif %}</span>
+                      <a href="{% url 'buydish' dish.id %}">{{ dish.name }}</a>
+                      <span>{{ dish.price }} {% if request.user.is_staff %} <a href="{% url 'editDish' dish.id %}"> Edit</a> {% endif %}</span>
+                      
                     </div>
                     <div class="menu-ingredients">
                           {{ dish.description }}
+                          <br>
+                          <button data-product="{{ dish.id }}" data-action="add" class="btn btn-outline-info update-cart" type="submit">Add to Cart</button>
                           {% if dish.available == False %}
-                            <h5>Not  Available at the moment!</h5>
+                            <h5>Not Available at the moment!</h5>
                           {% endif %}
                     </div>
                   </div>

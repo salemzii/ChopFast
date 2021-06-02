@@ -35,6 +35,12 @@ def notify(user, body):
         notifier.save()
 
 
+def delivered(request, deliveryId):
+    delivery = Delivery.objects.get(id=deliveryId)
+
+    return render(request, 'delivery.html', {'delivery': delivery})
+
+
 @login_required(login_url="/login/")
 def notifications(request):
     notifications = Notification.objects.all()

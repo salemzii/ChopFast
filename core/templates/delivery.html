@@ -1,0 +1,49 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block title %} {{ delivery.id }} {% endblock %}
+
+
+{% block content %}
+
+    {% if request.user.customer == delivery.order.customer %}
+
+        <h3>Hi, {{ request.user.username }} 😊</h3>
+        {% if delivery.delivered == True %}
+            <h4>Have your order been delivered? </h4>
+        {% endif %}
+        <div class="row menu-container" data-aos="fade-up" data-aos-delay="200">
+            <div class="col-lg-6 menu-item filter-starters">
+                <div class="menu-content">
+                <a href="">See Order... 🚚</a> <br>
+                <a href="">See Rider... 🏍👨</a>
+                </div>
+                <div class="menu-ingredients">
+                    Ordered at: {{ delivery.time }} <br>
+                    Status: {{ delivery.status}}
+                </div>
+            </div>
+
+            <div class="">
+                <a href=""><button class="btn btn-outline-info" type="submit">Yes Confirm Delivery</button></a>
+            </div>
+        </div>
+    {% elif request.user.rider %}
+        <h3>Hi, {{ request.user.username }}</h3>
+        <div class="row menu-container" data-aos="fade-up" data-aos-delay="200">
+            <div class="col-lg-6 menu-item filter-starters">
+                <div class="menu-content">
+                <a href="">See Order... 🚚</a> <br>
+                <a href="">See Customer... 🏍👨</a>
+                </div>
+                <div class="menu-ingredients">
+                    Ordered at: {{ delivery.time }} <br>
+                    Status: {{ delivery.status}}
+                </div>
+            </div>
+
+            <div class="">
+                <a href=""><button class="btn btn-outline-info" type="submit">Delivered</button></a>
+            </div>
+        </div>
+    {% endif %}
+{% endblock content %}
