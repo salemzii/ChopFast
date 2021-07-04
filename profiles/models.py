@@ -12,7 +12,7 @@ class Customer(models.Model):
         editable=False
     )
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    image = address = models.ImageField(default = 'default.jpg', blank=True, upload_to='profile_pics')
+    image= models.ImageField(default = 'default.jpg', blank=True, upload_to='profile_pics')
     address = models.CharField(max_length=75)
 
 

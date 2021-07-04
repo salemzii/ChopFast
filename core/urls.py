@@ -17,6 +17,7 @@ urlpatterns = [
     path("", include('profiles.urls')),
     path("", include('extras.urls')),
     path("", include('system_supports.urls')),
+    path("", include('coreapis.urls')), 
 ]
 
 if settings.DEBUG:

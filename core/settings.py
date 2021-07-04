@@ -43,6 +43,8 @@ INSTALLED_APPS = [
 'allauth.account',
 'allauth.socialaccount',
 'allauth.socialaccount.providers.google',
+    'coreapis',
+    'rest_framework',
 ]
 
 """

@@ -17,7 +17,8 @@ class Feedback(models.Model):
 
 class reportRestaurant(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='customer')
-    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='restaurant')
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, 
+    related_name='restaurant', blank=True, null=True) #Remove Fields blank and true when Restaurants become functional
     report = models.TextField()
 
 

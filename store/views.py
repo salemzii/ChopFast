@@ -71,20 +71,22 @@ def checkout(request, id):
     rand = ''.join(
         [random.choice(
             string.ascii_letters + string.digits) for n in range(16)])
-
-    p = Payments.objects.create(
-        id = rand,
+    """
+     p = Payments.objects.create(
+            id = rand,
         name = request.user,
         email=request.user.email,
         amount = (order.get_cart_total * 100) + 500, 
         verified = False, 
-        time = datetime.now()
     )
     p.save()
+    """
+   
+
     email = request.user.email
     amount = order.get_cart_total
     #return redirect(reverse('verify_payments', args=[rand]))
-    return render(request, 'paypay.html', context={'email': email, 'amount': amount, 'ref': rand, 'public_key': PUBLIC_KEY})
+    return render(request, 'checkout.html', context={'email': email, 'amount': amount, 'reference': rand, 'public_key': PUBLIC_KEY})
     
 
 @login_required(login_url="/login/")
