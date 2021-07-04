@@ -11,6 +11,7 @@ urlpatterns = [
     path('checkout/<slug:id>', views.checkout, name='pay'),
     path('verify', views.verify, name='verify'),
     path('verify_payments/<slug:id>', views.verify_payments, name='verify_payments'),
+    path('addpayment/', views.addpayment, name='addpayment'),
     path('transactions', views.transactions, name='transactions'),
     path('cart', views.cart, name='cart'),
     path('update_item/', views.updateitem, name='update_item'),

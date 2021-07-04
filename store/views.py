@@ -28,9 +28,11 @@ paystack_secret_key = "sk_test_ecd653a97cbfec8ad909e17e9d5a88aa188fd103"
 paystack = Paystack(secret_key=paystack_secret_key)
 
 
+
 def buyfood(request, id):
     food = Dish.objects.get(id = id)
     return render(request, 'dish.html', {'dish': food})
+
 
 @login_required(login_url="/login/")
 def CreateDish(request):
@@ -45,6 +47,7 @@ def CreateDish(request):
         form = AddDish()
 
     return render(request, 'addDish.html', {'form': form})
+
 
 
 def cart(request):
@@ -66,6 +69,7 @@ import time
 SECRET_KEY = 'sk_test_ecd653a97cbfec8ad909e17e9d5a88aa188fd103'
 
 
+
 def checkout(request, id):
     order = Order.objects.get(id=id)
     rand = ''.join(
@@ -82,12 +86,17 @@ def checkout(request, id):
     p.save()
     """
    
-
+    user = request.user
     email = request.user.email
     amount = order.get_cart_total
     #return redirect(reverse('verify_payments', args=[rand]))
-    return render(request, 'checkout.html', context={'email': email, 'amount': amount, 'reference': rand, 'public_key': PUBLIC_KEY})
-    
+    return render(request, 'checkout.html', context={'user':user,
+    'email': email, 
+    'amount': amount, 
+    'reference': rand, 
+    'public_key': PUBLIC_KEY})
+
+
 
 @login_required(login_url="/login/")
 def editDish(request, dishId):
@@ -105,6 +114,7 @@ def editDish(request, dishId):
     return render(request, 'editDish.html', {'form': form})
 
 
+
 def restaurant(request):
     dishes = Dish.objects.all()
     context = {
@@ -112,6 +122,7 @@ def restaurant(request):
     }
 
     return render(request, 'restaurant.html', context) 
+
 
 
 def transactions(request):
@@ -126,6 +137,7 @@ def transactions(request):
     }
 
     return render(request, 'transactions.html', context)
+
 
 
 def updateDelivery(request):
@@ -148,6 +160,27 @@ def updateDelivery(request):
 
     return JsonResponse('Delivery updated successfully!', safe=False)
     
+
+@login_required(login_url="/login/")
+def addpayment(request):
+    data = json.loads(request.body)
+    paymentId = data['paymentId']
+    name = request.user
+    email = request.user.username
+    amount = data['amount']
+
+
+    p = Payments.objects.create(
+        id = paymentId,
+        name = name,
+        email= email,
+        amount = amount + 500, 
+        verified = False, 
+    )
+    p.save()
+    return redirect(reverse('verify_payments', args=[paymentId]))
+
+
 
 def updateitem(request):
     data = json.loads(request.body)
@@ -172,6 +205,8 @@ def updateitem(request):
         orderItem.delete()
 
     return JsonResponse('Item was added successfully!', safe=False)
+
+
 
 def verify(request):
     return render(request, 'verify.html')
