@@ -1,0 +1,14 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block title %} FeedBack Lists {% endblock %}
+
+{% block content %}
+    {% for feedback in feedbacks %}
+        <div>
+            <h4>{{ feedback.title }}</h4>
+            <p>
+                {{  feedback.feedback }}    
+            </p>
+        </div>
+    {% endfor %}
+{% endblock content %}      

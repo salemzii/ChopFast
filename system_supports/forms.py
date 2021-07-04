@@ -9,7 +9,6 @@ class Create_feedback(forms.ModelForm):
 
 
 class reportRestaurantForm(forms.ModelForm):
-
     class Meta:
         model = reportRestaurant
         fields = ['report']

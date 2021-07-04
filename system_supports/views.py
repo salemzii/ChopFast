@@ -15,12 +15,12 @@ def create_feedback(request):
             return redirect('feedback_list')
     else:
         feedback = Create_feedback()
-    return render(request, 'addFeedback.html', {'feedback': feedback})
+    return render(request, 'addFeedback.html', {'form': feedback})
 
 
 def feedback_list(request):
     feedback_list = Feedback.objects.all()
-    return render(request, 'userauth/feedbacks.html', {'feedbacks': feedback_list})
+    return render(request, 'feedbacks.html', {'feedbacks': feedback_list})
 
 
 def report_Restaurant(request, id):
@@ -34,12 +34,8 @@ def report_Restaurant(request, id):
             reportForm.save()
             return redirect('feedback_list')
     else:
-        reportForm = reportDoctorForm()
+        reportForm = reportRestaurantForm()
     return render(request, 'userauth/reportDoc.html', {'reportform': reportForm})
 
-
-def restaurant_reports(request, id):
-    restaurant = Restaurant.objects.get(id=id)
-    return render(request, 'userauth/docreports.html', {'doc': userr.doctor.all()})
 
 # Create your views here.

@@ -107,6 +107,7 @@ class Delivery(models.Model):
 
 class Restaurant(models.Model):
     name = models.CharField(max_length=120, blank=False)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, )
     address = models.CharField(max_length=220, blank=False)
     rating = models.IntegerField(default=0)
     menus = models.ForeignKey(Dish, on_delete=models.CASCADE)

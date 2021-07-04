@@ -61,31 +61,31 @@ def cart(request):
     return render(request, 'cart.html', context)
 
 
+PUBLIC_KEY = 'pk_test_82840608689825e6578a49aeb96f936228d16279'
 import time
 SECRET_KEY = 'sk_test_ecd653a97cbfec8ad909e17e9d5a88aa188fd103'
-def checkout(request, dishid):
+
+
+def checkout(request, id):
+    order = Order.objects.get(id=id)
     rand = ''.join(
         [random.choice(
             string.ascii_letters + string.digits) for n in range(16)])
 
-    food = Dish.objects.get(id = dishid)
-
-    random_ref = rand
-    client = TransactionResource(SECRET_KEY, random_ref)
-    client.initialize(amount= food.price * 100, email=request.user.email, ref=random_ref)
-    client.authorize()
     p = Payments.objects.create(
-        id = random_ref,
+        id = rand,
         name = request.user,
         email=request.user.email,
-        amount = (food.price * 100) + 200, 
+        amount = (order.get_cart_total * 100) + 500, 
         verified = False, 
         time = datetime.now()
     )
     p.save()
-    time.sleep(2)
-    return redirect(reverse('verify_payments', args=[random_ref]))
-
+    email = request.user.email
+    amount = order.get_cart_total
+    #return redirect(reverse('verify_payments', args=[rand]))
+    return render(request, 'paypay.html', context={'email': email, 'amount': amount, 'ref': rand, 'public_key': PUBLIC_KEY})
+    
 
 @login_required(login_url="/login/")
 def editDish(request, dishId):
@@ -124,6 +124,27 @@ def transactions(request):
     }
 
     return render(request, 'transactions.html', context)
+
+
+def updateDelivery(request):
+    data = json.loads(request.body)
+    print(data)
+    deliveryId = data['deliveryId']
+    action = data['action']
+    print('Action: ', action)
+    print('Delivery: ', deliveryId)
+        
+    delivery = Delivery.objects.get(id=deliveryId)
+    if action == 'confirm':
+        delivery.delivered = True
+    elif action == 'confirm-delivery':
+        delivery.confirm_delivery = True
+
+    if delivery.delivered == True and delivery.confirm_delivery == True:
+        delivery.status = 'Completed'
+    delivery.save()
+
+    return JsonResponse('Delivery updated successfully!', safe=False)
     
 
 def updateitem(request):
@@ -159,12 +180,8 @@ def verify_payments(request, id):
     if Transaction.verify(reference=p.id)['status'] == True:
         p.verified = True
         p.save()
-
-        order = Order.objects.create(
-        payment=p,
-        status='In-Progress',
-        )
-        order.save()
+        customer = Customer.objects.get(user=request.user)
+        order = Order.objects.get(customer=customer)
         customer = request.user
         riders_ls = [rider.user for rider in Rider.objects.all() if rider.is_active == False]
         rider = riders_ls[0]

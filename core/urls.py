@@ -16,6 +16,7 @@ urlpatterns = [
     path("", include('store.urls')),
     path("", include('profiles.urls')),
     path("", include('extras.urls')),
+    path("", include('system_supports.urls')),
 ]
 
 if settings.DEBUG:

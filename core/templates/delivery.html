@@ -24,7 +24,7 @@
             </div>
 
             <div class="">
-                <a href=""><button class="btn btn-outline-info" type="submit">Yes Confirm Delivery</button></a>
+                <button data-product="{{ delivery.id }}" data-action="confirm-delivery"  class="btn btn-outline-info confirm-delivery" type="submit">Yes Confirm Delivery</button>
             </div>
         </div>
     {% elif request.user.rider %}
@@ -42,7 +42,7 @@
             </div>
 
             <div class="">
-                <a href=""><button class="btn btn-outline-info" type="submit">Delivered</button></a>
+                <button data-product="{{ delivery.id }}" data-action="confirm"  class="btn btn-outline-info confirm-delivery" type="submit">Delivered</button>
             </div>
         </div>
     {% endif %}

@@ -20,7 +20,7 @@ DEBUG = config('DEBUG', default=True, cast=bool)
 
 # load production server from .env
 ALLOWED_HOSTS = ['localhost',
-config('SERVER', default='127.0.0.1'), '4cfd8067b8d1.ngrok.io']
+config('SERVER', default='127.0.0.1'), '15a1f2cbf546.ngrok.io']
 
 #SITE_ID = 3
 # Application definition
