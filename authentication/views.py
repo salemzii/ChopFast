@@ -7,7 +7,7 @@ from django.http import HttpResponse
 from .forms import LoginForm, SignUpForm
 from profiles.models import Customer, Rider, Staff, Supplier
 import time
-
+from rest_framework.authtoken.models import Token
 
 def login_view(request):
     form = LoginForm(request.POST or None)
@@ -52,6 +52,8 @@ def register_user(request):
 
             msg     = 'User created - please <a href="/login">login</a>.'
             success = True
+            token = Token.objects.create(user=u)
+            token.save()
 
             customer = Customer.objects.create(
                 user=u,

@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 'allauth.socialaccount.providers.google',
     'coreapis',
     'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 """
@@ -68,6 +69,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'core.urls'
 LOGIN_REDIRECT_URL = "restaurant"   # Route defined in app/urls.py
 TEMPLATE_DIR = os.path.join(CORE_DIR, "core/templates")  # ROOT dir for templates
+
 
 TEMPLATES = [
     {
@@ -97,6 +99,7 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'ChopFastdb') ,
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -152,7 +155,18 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend'
 ]
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+
+    ]
+}
+
+
 DEFAULT_AUTO_FIELD='django.db.models.AutoField'
+
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
@@ -165,5 +179,4 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
-#############################################################
-#############################################################
+
