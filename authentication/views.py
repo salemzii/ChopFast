@@ -7,7 +7,13 @@ from django.http import HttpResponse
 from .forms import LoginForm, SignUpForm
 from profiles.models import Customer, Rider, Staff, Supplier
 import time
+
 from rest_framework.authtoken.models import Token
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from coreapis.serializers import RegistrationSerializer, LoginSerializer
+
 
 def login_view(request):
     form = LoginForm(request.POST or None)
@@ -88,6 +94,8 @@ def register_staff(request):
             u = User.objects.get(username=username)
             u.is_active = True
             u.save()
+            token = Token.objects.create(user=u)
+            token.save()
 
             msg = 'User created - please <a href="/login">login</a>.'
             success = True
@@ -124,3 +132,23 @@ def register_staff(request):
         form = SignUpForm()
 
     return render(request, "accounts/registerStaff.html", {"form": form, "msg" : msg, "success" : success })
+
+
+@api_view(['POST'])
+def registrationView(request):
+    if request.method == "POST":
+        serializer = RegistrationSerializer(data=request.data)
+        data = {}
+        if serializer.is_valid():
+            user = serializer.save()
+            data['response'] = 'Sucessfully Created Your Account!'
+            data['email'] = user.email
+            data['username'] = user.username
+            user.is_active = True
+            user.save()
+            token = Token.objects.create(user=user)
+            token.save()
+        else:
+            data = serializer.errors
+        return Response(data)
+

@@ -22,6 +22,7 @@ from django.core.mail import send_mail
 import json
 
 from app.views import notify
+from app.views import send_sms
 
 from paystackapi.paystack import Paystack, Transaction
 paystack_secret_key = "sk_test_ecd653a97cbfec8ad909e17e9d5a88aa188fd103"
@@ -237,6 +238,10 @@ def verify_payments(request, id):
         d.save()
         notify(rider, email_body)
         notify(customer, msg)
+        send_sms(rider, email_body)
+        send_sms(customer, msg)
     return redirect('restaurant')
+
+
 
 

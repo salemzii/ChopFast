@@ -35,6 +35,35 @@ def notify(user, body):
         notifier.save()
 
 
+import os
+from twilio.rest import Client
+def send_sms(user, msg):
+    #remember to replicate this function for rider and customers when you've created a verified twilio account!
+        # Download the helper library from https://www.twilio.com/docs/python/install
+
+
+
+    # Find your Account SID and Auth Token at twilio.com/console
+    # and set the environment variables. See http://twil.io/secure
+    account_sid =  'AC140622d81eaf073184b8bb54c79b3979' #os.environ['TWILIO_ACCOUNT_SID']
+    auth_token =   '6cd0a23cf5a498eba8dd24f7757dff71' #os.environ['TWILIO_AUTH_TOKEN']
+    client = Client(account_sid, auth_token)
+    try:
+        message = client.messages \
+                .create(
+                    body= msg, #"Join Earth's mightiest heroes. Like Kevin Bacon.",
+                    from_='+12674294534',
+                    to='+2347014327332'
+                )
+
+        print(message.sid)
+    except Exception as err:
+        print("Error Communicating with Twilio")
+        print|(err)
+        
+
+
+
 def delivered(request, deliveryId):
     delivery = Delivery.objects.get(id=deliveryId)
 

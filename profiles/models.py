@@ -14,6 +14,7 @@ class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image= models.ImageField(default = 'default.jpg', blank=True, upload_to='profile_pics')
     address = models.CharField(max_length=75)
+    phone_number = models.IntegerField(default=0000, null=True, blank=True)
 
 
     def __str__(self):
@@ -31,6 +32,7 @@ class Rider(models.Model):
     image = models.ImageField(default= 'default.jpg', upload_to='profile_pics')
     address = models.CharField(max_length=75)
     is_active = models.BooleanField(default=False)
+    phone_number = models.IntegerField(default=0000, null=True, blank=True)
 
 
     def __str__(self):
@@ -48,6 +50,7 @@ class Staff(models.Model):
     image = models.ImageField(default='default.jpg', upload_to='profile_pics')
     address = models.CharField(max_length=75)
     is_active = models.BooleanField(default=False)
+    phone_number = models.IntegerField(default=0000, null=True, blank=True)
 
     def __str__(self):
         template = f"{self.user.username}'s profile."
@@ -58,6 +61,7 @@ class Supplier(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=120, unique=True)
     address = models.CharField(max_length=220)
+    phone_number = models.IntegerField(default=0000, null=True, blank=True)
     created_date = models.DateField(auto_now_add=True)
 
     def __str__(self):
