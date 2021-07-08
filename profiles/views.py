@@ -92,6 +92,7 @@ def customerProfile(request, id):
 @login_required(login_url="/login/")
 def customerProfileUpdate(request):
     customer = request.user
+    print(customer.customer.id)
     if request.method == "POST":
         customerUpdateForm = CustomerUpdateForm(request.POST, request.FILES, instance=customer)
         if customerUpdateForm.is_valid():

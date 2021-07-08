@@ -11,6 +11,7 @@ from django import template
 from store.models import Order, Delivery
 from extras.models import Tasks
 from .models import Notification
+import smtplib
 
 
 @login_required(login_url="/login/")
@@ -37,6 +38,7 @@ def notify(user, body):
 
 import os
 from twilio.rest import Client
+
 def send_sms(user, msg):
     #remember to replicate this function for rider and customers when you've created a verified twilio account!
         # Download the helper library from https://www.twilio.com/docs/python/install
@@ -46,11 +48,10 @@ def send_sms(user, msg):
     # Find your Account SID and Auth Token at twilio.com/console
     # and set the environment variables. See http://twil.io/secure
     account_sid =  'AC140622d81eaf073184b8bb54c79b3979' #os.environ['TWILIO_ACCOUNT_SID']
-    auth_token =   '6cd0a23cf5a498eba8dd24f7757dff71' #os.environ['TWILIO_AUTH_TOKEN']
+    auth_token =   '289adeb01a7500f6aa9566c838d5d56c' #os.environ['TWILIO_AUTH_TOKEN']
     client = Client(account_sid, auth_token)
     try:
-        message = client.messages \
-                .create(
+        message = client.messages.create(
                     body= msg, #"Join Earth's mightiest heroes. Like Kevin Bacon.",
                     from_='+12674294534',
                     to='+2347014327332'
@@ -59,7 +60,7 @@ def send_sms(user, msg):
         print(message.sid)
     except Exception as err:
         print("Error Communicating with Twilio")
-        print|(err)
+        print(err)
         
 
 
@@ -78,6 +79,24 @@ def notifications(request):
         'notifications' : notifications,
     }
     return render(request, 'ui-notifications.html', context)
+
+
+
+def send_mail(to_mail, subject, body):
+    
+    s = smtplib.SMTP('email-smtp.eu-west-3.amazonaws.com')
+    s.connect('email-smtp.eu-west-3.amazonaws.com', 587)
+    s.starttls()
+    s.login('AKIAYAW53EOHRW6YG7NM', 'BDshz1xGY+fXFwLbuBN76qjoEai43EXI+JbD9CPt32Y3')
+
+    from_mail = 'chopfastfast@gmail.com'
+    msg =f'from: {from_mail}\nTo: {to_mail}\nSubject: {subject}\n\n{body}'
+    s.sendmail(from_mail, to_mail, msg)
+
+    #to_mail = 'salemododa2@gmail.com' 
+    #subject = 'test Email'
+    #body = 'This is a Test mail from amazon SeS!'
+    #msgg = f'from: salemododa2@gmail.com\nTo: chopfastfast@gmail.com\nSubject: test Email\n\nThis is a Test mail from amazon SeS!'
 
 
 

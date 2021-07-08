@@ -21,8 +21,9 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 import json
 
-from app.views import notify
 from app.views import send_sms
+from app.views import send_mail
+from app.views import notify
 
 from paystackapi.paystack import Paystack, Transaction
 paystack_secret_key = "sk_test_ecd653a97cbfec8ad909e17e9d5a88aa188fd103"
@@ -50,7 +51,7 @@ def CreateDish(request):
     return render(request, 'addDish.html', {'form': form})
 
 
-
+@login_required(login_url="/login/")
 def cart(request):
     if request.user.is_authenticated:
         customer = Customer.objects.get(user=request.user)
@@ -70,31 +71,17 @@ import time
 SECRET_KEY = 'sk_test_ecd653a97cbfec8ad909e17e9d5a88aa188fd103'
 
 
-
+@login_required(login_url="/login/")
 def checkout(request, id):
     order = Order.objects.get(id=id)
-    rand = ''.join(
-        [random.choice(
-            string.ascii_letters + string.digits) for n in range(16)])
-    """
-     p = Payments.objects.create(
-            id = rand,
-        name = request.user,
-        email=request.user.email,
-        amount = (order.get_cart_total * 100) + 500, 
-        verified = False, 
-    )
-    p.save()
-    """
-   
+
     user = request.user
     email = request.user.email
     amount = order.get_cart_total
-    #return redirect(reverse('verify_payments', args=[rand]))
+
     return render(request, 'checkout.html', context={'user':user,
     'email': email, 
     'amount': amount, 
-    'reference': rand, 
     'public_key': PUBLIC_KEY})
 
 
@@ -213,6 +200,7 @@ def verify(request):
     return render(request, 'verify.html')
 
 
+@login_required(login_url="/login/")
 def verify_payments(request, id):
     p = Payments.objects.get(id=id)
     if Transaction.verify(reference=p.id)['status'] == True:
@@ -226,8 +214,8 @@ def verify_payments(request, id):
         email_subject = f"Order for {p.name.username} recieved!"
         email_body = f"Hi {rider.username}, {p.name.username} placed an Order"
         
-        msg = f'Your ordered has been sent and will be delivered by {rider} in 15 minutes'
-        email = send_mail(email_subject, email_body, 'Noreply@FX.com', [rider.email], fail_silently=True)
+        msg = f'Your order has been sent and will be delivered by {rider} in 15 minutes'
+
         d = Delivery.objects.create(
             order= order,
             rider=rider,
@@ -236,10 +224,15 @@ def verify_payments(request, id):
             status="In-Progress"
         )
         d.save()
+
         notify(rider, email_body)
         notify(customer, msg)
+
         send_sms(rider, email_body)
         send_sms(customer, msg)
+
+        send_mail(p.name.email, email_subject, msg)
+        #send_mail(rider.email, email_subject, email_body) #un-comment when ses is live!
     return redirect('restaurant')
 
 

@@ -8,9 +8,18 @@ from store.models import (Dish,
     Delivery, Restaurant, 
     Customer, Payments, 
     Order, OrderItem)
-from .serializers import (FeedbackSerializer, DishSerializer,
-    reportRestaurantSerializer)
+from .serializers import (FeedbackSerializer, 
+    DishSerializer,
+    reportRestaurantSerializer,
+    CustomerUpdateSerializer,
+    RiderUpdateSerializer,
+    StaffUpdateSerializer,
+    UserViewSerializer)
 
+from profiles.models import (Staff,
+    Rider,
+    Customer)
+from django.contrib.auth.models import User
 
 
 @api_view(['GET'])
@@ -90,4 +99,76 @@ def dishes(request):
 def dish(request, dishId):
     dish = Dish.objects.get(id = dishId)
     serializer = DishSerializer(dish, many=False)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def customerprofile(request, customerId):
+    customer = Customer.objects.get(id=customerId)
+    user = User.objects.get(customer=customer)
+    serializer = CustomerUpdateSerializer(customer, many=False)
+    serialer2 = UserViewSerializer(user, many=False)
+    data = {}
+    data['username'] = serialer2.data['username']
+    data['email'] = serialer2.data['email']
+    data['image'] = serializer.data['image']
+    data['address'] = serializer.data['address']
+    data['phone_number'] = serializer.data['phone_number']
+    return Response(data)
+
+
+@api_view(['GET'])
+def riderprofile(request, riderId):
+    rider = Rider.objects.get(id=riderId)
+    user = User.objects.get(rider=rider)
+    serializer = RiderUpdateSerializer(rider, many=False)
+    serialer2 = UserViewSerializer(user, many=False)
+    data = {}
+    data['username'] = serialer2.data['username']
+    data['email'] = serialer2.data['email']
+    data['image'] = serializer.data['image']
+    data['address'] = serializer.data['address']
+    data['phone_number'] = serializer.data['phone_number']
+    return Response(data)
+
+
+@api_view(['GET'])
+def staffprofile(request, staffId):
+    staff = Staff.objects.get(id=staffId)
+    user = User.objects.get(staff=staff)
+    serializer = StaffUpdateSerializer(staff, many=False)
+    serialer2 = UserViewSerializer(user, many=False)
+    data = {}
+    data['username'] = serialer2.data['username']
+    data['email'] = serialer2.data['email']
+    data['image'] = serializer.data['image']
+    data['address'] = serializer.data['address']
+    data['phone_number'] = serializer.data['phone_number']
+    return Response(data)
+
+
+@api_view(['PUT'])
+def customerUpdate(request, customerId):
+    customer = Customer.objects.get(id=customerId)
+    serializer = CustomerUpdateSerializer(data=request.data, instance=customer)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)
+
+
+@api_view(['PUT'])
+def RiderUpdate(request, riderId):
+    rider = Rider.objects.get(id=RiderId)
+    serializer = RiderUpdateSerializer(data=request.data, instance=rider)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)
+
+
+@api_view(['PUT'])
+def staffUpdate(request, staffId):
+    staff = Staff.objects.get(id=staffId)
+    serializer = StaffUpdateSerializer(data=request.data, instance=staff)
+    if serializer.is_valid():
+        serializer.save()
     return Response(serializer.data)

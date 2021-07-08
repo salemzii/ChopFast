@@ -91,30 +91,32 @@ class LoginSerializer(serializers.ModelSerializer):
         }
 
 
+class UserViewSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = User
+        fields = ['username', 'email']
 
 
+class CustomerUpdateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Customer
+        fields = ['image', 'address', 'phone_number']
 
 
+class RiderUpdateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Rider
+        fields = ['image', 'address', 'phone_number']
 
 
+class StaffUpdateSerializer(serializers.ModelSerializer):
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    class Meta:
+        model = Staff
+        fields = ['image', 'address', 'phone_number']
 
 """
 customers

@@ -16,4 +16,7 @@ urlpatterns = [
     path('makedish', views.makedish, name='makedish'),
     path('updatedish/<int:dishId>', views.updatedish, name='updatedish'),
 
+    path('customerprofileupdate/<slug:customerId>', views.customerUpdate, name='customerUpdate'),
+    path('customerprofileview/<slug:customerId>', views.customerprofile, name='customerProfile'),
+
 ]
