@@ -157,8 +157,8 @@ def customerUpdate(request, customerId):
 
 
 @api_view(['PUT'])
-def RiderUpdate(request, riderId):
-    rider = Rider.objects.get(id=RiderId)
+def riderUpdate(request, riderId):
+    rider = Rider.objects.get(id=riderId)
     serializer = RiderUpdateSerializer(data=request.data, instance=rider)
     if serializer.is_valid():
         serializer.save()

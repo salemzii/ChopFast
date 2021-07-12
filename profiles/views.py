@@ -44,6 +44,7 @@ def profileview(request):
 def riderprofile(request, id):
     user = User.objects.get(id=id)
     rider = Rider.objects.get(user=user)
+    print(rider.id)
     return render(request, 'rider.html', {'rider': rider})
 
 
@@ -65,6 +66,7 @@ def riderUpdateForm(request, riderId):
 def staffProfile(request, id):
     user = User.objects.get(id=id)
     staff = Staff.objects.get(user=user)
+    print(staff.id)
     return render(request, 'staff.html', {'staff': staff})
 
 

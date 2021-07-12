@@ -19,4 +19,9 @@ urlpatterns = [
     path('customerprofileupdate/<slug:customerId>', views.customerUpdate, name='customerUpdate'),
     path('customerprofileview/<slug:customerId>', views.customerprofile, name='customerProfile'),
 
+    path('riderprofileupdate/<slug:riderId>', views.riderUpdate, name='riderUpdate'),
+    path('riderprofileview/<slug:riderId>', views.riderprofile, name='riderProfile'),
+
+    path('staffprofileupdate/<slug:staffId>', views.staffUpdate, name='staffUpdate'),
+    path('staffprofileview/<slug:staffId>', views.staffprofile, name='staffProfile'),
 ]
