@@ -1,0 +1,29 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Order Successful {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-profile">
+                <div class="card-body">
+                    <h6 class="card-category text-gray">Payment Successful</h6>
+                    <h4 class="card-title">
+                        Order Placed Successfully, please wait while we deliver your dish, Enjoy Your Meal ☺😋
+                        click to pay for order <a>{{ url }}</a>
+                    </h4>
+                    <a href="{% url 'restaurant' %}" class="btn btn-primary btn-round">See More Dishes</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

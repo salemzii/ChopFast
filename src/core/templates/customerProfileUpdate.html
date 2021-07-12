@@ -1,0 +1,26 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Page User {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<div>
+  <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <fieldset>
+          <legend class="border-bottom mb-4">Update Profile</legend>
+          {{ form.as_p }}
+      </fieldset>
+      <div class="form-group">
+          <button class="btn btn-outline-info" type="submit">Update Profile</button>
+      </div>
+  </form>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
