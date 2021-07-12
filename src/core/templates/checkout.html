@@ -1,0 +1,87 @@
+
+<form id="paymentForm">
+    <div class="form-group">
+      <label for="email">Email Address</label>
+      <input type="email" id="email-address"  value={{email}} required />
+    </div>
+    <div class="form-group">
+      <label for="first-name">First Name</label>
+      <input type="text" id="first-name" />
+    </div>
+    <div class="form-group">
+      <label for="last-name">Last Name</label>
+      <input type="text" id="last-name" />
+    </div>
+    <div class="form-submit">
+      <button type="submit" onclick="payWithPaystack()"> Pay </button>
+    </div>
+  </form>
+
+  <script>
+    const paymentForm = document.getElementById('paymentForm');
+    paymentForm.addEventListener("submit", payWithPaystack, false);
+    function payWithPaystack(e) {
+      e.preventDefault();
+      let handler = PaystackPop.setup({
+        key: 'pk_test_82840608689825e6578a49aeb96f936228d16279', // Replace with your public key
+        email: document.getElementById("email-address").value,
+        amount: ({{amount}} * 100),//document.getElementById("amount").value * 100,
+        ref: ''+Math.floor((Math.random() * 1000000000) + 1), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
+        // label: "Optional string that replaces customer email"
+        onClose: function(){
+          alert('Window closed.');
+        },
+        callback: function(response){
+          let message = 'Payment complete! Reference: ' + response.reference;
+          alert(message);
+          post_ref(response);
+        }
+      });
+      handler.openIframe();
+    }
+    function post_ref(response){
+      console.log('Including Payment Object...')
+      try {
+        var url = 'http://localhost:8000/addpayment/'
+        console.log(url)
+          fetch (url, {
+          method: 'POST',
+          headers:{
+              'Content-Type':'application/json',
+              'X-CSRFToken': csrftoken,
+          },
+          body:JSON.stringify({'paymentId': response.reference, 'amount': {{amount}}})
+
+          })
+          .then((response) =>{
+          return response.json();
+        })
+        } catch (error) {
+          console.log('Encountered error while parsing data...', error)
+      }
+
+    }
+  </script>
+
+  <script type="text/javascript">
+    var user = '{{ request.user }}'
+          function getToken(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                } 
+            }
+            return cookieValue;
+          }
+    const csrftoken = getToken('csrftoken');
+  </script>
+<script src="https://js.paystack.co/v1/inline.js"></script>
+ 
+

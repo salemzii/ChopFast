@@ -1,0 +1,51 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+
+
+{% block content %}
+    
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="box-element">
+
+				<a  class="btn btn-outline-dark" href="{% url 'restaurant' %}">&#x2190; Continue Shopping</a>
+				<br>
+
+				<table class="table">
+					<tr>
+						<th><h5>Items: <strong>{{ order.get_cart_items }}</strong></h5></th>
+						<th><h5>Total:<strong> ${{ order.get_cart_total }}</strong></h5></th>
+						<th>
+							<a  style="float:right; margin:5px;" class="btn btn-success" href="{% url 'pay' order.id %}">Checkout</a>
+						</th>
+					</tr>
+				</table>
+
+			</div>
+
+			<br>
+			<table width="800">
+				<tr>
+					<th>Dish</th>
+					<th>Price</th>
+					<th>Quantity</th>
+				</tr>
+				{% for item in items %}
+					<tr>
+						<td><a href="">{{ item.dish.name }}</a></td>
+						<td>{{ item.dish.price }}</td>
+						<td>
+							<button data-product="{{ item.dish.id }}" data-action="remove" class="btn btn-outline-sm update-cart">
+								- </button>
+								{{ item.quantity }}
+							<button data-product="{{ item.dish.id }}" data-action="add" class="btn btn-outline-sm update-cart">
+								+ </button>
+					</tr>
+				{% endfor %}
+			</table>
+		</div>
+	</div>
+
+
+{% endblock content %}

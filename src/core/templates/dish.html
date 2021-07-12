@@ -1,0 +1,22 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block title %} {{ dish.name }} {% endblock %}
+
+
+{% block content %}
+    <div class="row menu-container" data-aos="fade-up" data-aos-delay="200">
+        <div class="col-lg-6 menu-item filter-starters">
+            <img src="{{ dish.imageURL }}" class="menu-img" alt="">
+            <div class="menu-content">
+            <a href="">{{ dish.name }}</a> <br> {{ dish.price }}
+            </div>
+            <div class="menu-ingredients">
+                {{ dish.description }}
+            </div>
+        </div>
+
+        <div class="">
+            <a href="{% url 'pay' dish.id %}"><button class="btn btn-outline-info" type="submit">Buy Dish</button></a>
+        </div>
+    </div>
+{% endblock content %}
